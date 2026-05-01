@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 import logging
 import traceback                      
-from app.issue import create_github_issue   
+from app.issue import *
 
 # 1) 로그 포맷: 시간 + 레벨 + 메시지
 logging.basicConfig(
@@ -57,14 +57,9 @@ async def classify(payload: ClassifyRequest):
             f"FAIL /classify | text='{text}' | error={type(e).__name__}: {e}"
         )
 
-        # (D) GitHub Issue 자동 생성 ⭐ 추가
-        # traceback 생성 (에러 발생 위치 추적)
+        # (D) GitHub Issue 자동 생성
         tb = traceback.format_exc()
-
-        # Issue 제목
         title = f"[Prod Error] /classify failed: {type(e).__name__}"
-
-        # Issue 내용 구성
         body = (
             f"## Summary\n"
             f"- endpoint: /classify\n"
@@ -76,8 +71,6 @@ async def classify(payload: ClassifyRequest):
             f"## Traceback\n"
             f"```text\n{tb}\n```"
         )
-
-        # GitHub Issue 생성 호출
         create_github_issue(title, body, logger)
 
         # (E) 사용자 응답은 심플하게
