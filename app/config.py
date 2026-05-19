@@ -1,8 +1,9 @@
 import os
 
 MODEL_MODE = "ml" # "rules" 
-MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
-MODEL_URI = "models:/spam-model@champion"
+# MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
+MLFLOW_TRACKING_URI = "https://fling-diminish-unstylish.ngrok-free.dev"
+MODEL_URI = "models:/spam-model@challenger"
 
 TRAIN_FILE_NAME = "train.csv"
 TEST_FILE_NAME = "test.csv"

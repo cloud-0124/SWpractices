@@ -21,8 +21,8 @@ MODEL_PATH = os.path.join(ARTIFACT_DIR, MODEL_NAME)
 os.makedirs(ARTIFACT_DIR, exist_ok=True)
 
 # 실험 세팅
-# mlflow는 sqlite를 기반 DB로 사용
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_tracking_uri(MLFLOW_TRACKING_URI) 
+mlflow.set_registry_uri(MLFLOW_TRACKING_URI)
 mlflow.set_experiment("spam-classification-local")
 
 train_df= pd.read_csv(TRAIN_DATA_PATH)
