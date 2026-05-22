@@ -23,7 +23,7 @@ os.makedirs(ARTIFACT_DIR, exist_ok=True)
 # 실험 세팅
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI) 
 mlflow.set_registry_uri(MLFLOW_TRACKING_URI)
-mlflow.set_experiment("spam-classification-local")
+mlflow.set_experiment("spam-classification-server")
 
 train_df= pd.read_csv(TRAIN_DATA_PATH)
 test_df= pd.read_csv(TEST_DATA_PATH)
@@ -49,7 +49,9 @@ for model_name, model in models.items():
         ])
 
         # 실험 설정 기록
-        mlflow.log_param("model_name", model_name)
+        mlflow.log_param("model_type", model_name)
+        mlflow.log_param("vectorizer", "CountVectorizer")
+        # mlflow.log_param("max_iter", 200)
         mlflow.log_param("train_data_path", TRAIN_DATA_PATH)
         mlflow.log_param("test_train_data_path", TEST_DATA_PATH)
         mlflow.log_param("train_row_count", len(train_df))

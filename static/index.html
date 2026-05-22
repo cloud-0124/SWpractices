@@ -31,8 +31,13 @@
             })
             .then(res => res.json())
             .then(data => {
-                document.getElementById("result").innerText =
-                    "결과: " + data.label + " (score=" + data.score + ")";
+                let msg = "결과: " + data.label + " (score=" + data.score + ")";
+                if (data.model_info) {
+                    msg += "\n모델: " + data.model_info.model_type;
+                    msg += "\nTest Acc: " + data.model_info.test_accuracy;
+                    msg += "\nRun ID: " + data.model_info.run_id;
+                }
+                document.getElementById("result").innerText = msg;
             })
             .catch(() => {
                 document.getElementById("result").innerText = "에러 발생";

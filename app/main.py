@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from app.config import MODEL_MODE
 from app.spam import check_spam_rules, check_spam_ml
+from app.model_loader import get_model_info
 
 import logging
 import traceback                      
@@ -79,5 +80,7 @@ async def classify(payload: ClassifyRequest):
         return {"label": "Internal Server Error","score": -1}
 
     return {
-        "label": label, "score": score
+    "label": label,
+    "score": score,
+    "model_info": get_model_info()
     }
