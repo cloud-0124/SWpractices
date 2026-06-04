@@ -1,29 +1,27 @@
-// ./static/index.html
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title> 적당한 스팸 판별기 (AI Spam Checker)</title>
+    <title>Spam Checker</title>
 </head>
 <body>
     <h1>Spam Checker</h1>
 
     <textarea id="text" rows="5" cols="60"
-        placeholder="스팸으로 의심되는 메세지를 붙여넣어주세요!"></textarea><br><br>
+        placeholder="스팸으로 의심되는 메시지를 붙여넣어주세요!"></textarea><br><br>
 
-    <button onclick="classify()">분류</button>
+    <button onclick="classify()">스팸 탐지</button>
     <h3 id="result"></h3>
 
     <script>
         function classify() {
             const text = document.getElementById("text").value;
-            // ISSUE2: empty Input 처리
             const result = document.getElementById("result");
             if (!text) {
-                result.innerText = "메세지를 입력해 주세요!";
+                result.innerText = "메시지를 입력해 주세요.";
                 return;
             }
-            // 브라우저가 서버에 HTTP 요청을 보내는 함수
+
             fetch("/classify", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -33,14 +31,15 @@
             .then(data => {
                 let msg = "결과: " + data.label + " (score=" + data.score + ")";
                 if (data.model_info) {
+                    msg += "\n모델타입: " + data.serving_model;
                     msg += "\n모델: " + data.model_info.model_type;
                     msg += "\nTest Acc: " + data.model_info.test_accuracy;
                     msg += "\nRun ID: " + data.model_info.run_id;
                 }
-                document.getElementById("result").innerText = msg;
+                result.innerText = msg;
             })
             .catch(() => {
-                document.getElementById("result").innerText = "에러 발생";
+                result.innerText = "에러 발생";
             });
         }
     </script>
